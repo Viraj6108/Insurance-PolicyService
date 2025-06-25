@@ -1,9 +1,12 @@
 package com.policyservice.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,10 +25,12 @@ public class Policy {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID policyId;
     private UUID userId;
+    private UUID quoteID;
+
     private String vehicleNumber;
     private String registrationState;
-    private String registrationNumber;
 
+    //Vehicle details
     private String manufacturer;
     private String model;
     private int yearOfManufacture;
@@ -33,7 +38,6 @@ public class Policy {
     private String chassisNumber;
     private int engineCapacity;
     private double showroomPrice;
-    private LocalDate purchaseDate;
 
     //    coverage
     private String coverageType;
@@ -51,6 +55,10 @@ public class Policy {
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "nominee_details")
+    private NomineeDetails nomineeDetails;
 
     public UUID getPolicyId() {
         return policyId;
@@ -221,19 +229,21 @@ public class Policy {
         this.showroomPrice = showroomPrice;
     }
 
-    public LocalDate getPurchaseDate() {
-        return purchaseDate;
+    public UUID getQuoteID() {
+        return quoteID;
     }
 
-    public void setPurchaseDate(LocalDate purchaseDate) {
-        this.purchaseDate = purchaseDate;
+    public void setQuoteID(UUID quoteID) {
+        this.quoteID = quoteID;
     }
 
-    public String getRegistrationNumber() {
-        return registrationNumber;
-    }
+	public NomineeDetails getNomineeDetails() {
+		return nomineeDetails;
+	}
 
-    public void setRegistrationNumber(String registrationNumber) {
-        this.registrationNumber = registrationNumber;
-    }
+	public void setNomineeDetails(NomineeDetails nomineeDetails) {
+		this.nomineeDetails = nomineeDetails;
+	}
+
+    
 }

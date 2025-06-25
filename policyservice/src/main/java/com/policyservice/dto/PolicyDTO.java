@@ -15,6 +15,8 @@ public class PolicyDTO {
     private UUID policyId;
     @NotNull(message = "user id is mandatory")
     private UUID userId;
+    @NotNull(message = "Quote id is mandatory")
+    private UUID quoteId;
     @NotNull(message = "Vehicle number is mandatory")
     private String vehicleNumber;
     @NotNull(message = "Registration number is mandatory")
