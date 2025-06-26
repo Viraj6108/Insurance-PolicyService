@@ -59,9 +59,9 @@ public PolicyServiceImpl(KafkaTemplate <String,String>kafkaTemplate)
           //mapping the values to entity 
            newPolicy =mapperEntity.toEntity(quote);
   
-           String stringPolicy = mapper.writeValueAsString("Policy Created"+newPolicy);
+           String stringPolicy = mapper.writeValueAsString(newPolicy);
 
-           kafkaTemplate.send("policy-created", stringPolicy);
+           kafkaTemplate.send("email-notification", stringPolicy);
             Logger.getLogger(stringPolicy);
            return policyRepository.save(newPolicy);
 

@@ -9,5 +9,8 @@ public class KafkaTopic {
 
     @Bean
     public NewTopic policyCreated(){return TopicBuilder.name("policy-created").build();}
+    
+    @Bean
+    public NewTopic sendNotification() {return TopicBuilder.name("email-notification").build();}
     }
 
