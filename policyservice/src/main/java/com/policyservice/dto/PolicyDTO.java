@@ -3,20 +3,17 @@ package com.policyservice.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.aspectj.lang.annotation.RequiredTypes;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class PolicyDTO {
 
-    private UUID policyId;
+    private String policyId;
     @NotNull(message = "user id is mandatory")
-    private UUID userId;
+    private String userId;
     @NotNull(message = "Quote id is mandatory")
-    private UUID quoteId;
+    private String quoteId;
     @NotNull(message = "Vehicle number is mandatory")
     private String vehicleNumber;
     @NotNull(message = "Registration number is mandatory")
@@ -57,19 +54,25 @@ public class PolicyDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public UUID getPolicyId() {
+    private String nFirstName;
+	private String nLastName;
+	private String nDOB;
+	private String nAddress;
+	private String nAadharNumber;
+	private String nRelation;
+    public String getPolicyId() {
         return policyId;
     }
 
-    public void setPolicyId(UUID policyId) {
+    public void setPolicyId(String policyId) {
         this.policyId = policyId;
     }
 
-    public @NotNull(message = "user id is mandatory") UUID getUserId() {
+    public @NotNull(message = "user id is mandatory") String getUserId() {
         return userId;
     }
 
-    public void setUserId(@NotNull(message = "user id is mandatory") UUID userId) {
+    public void setUserId(@NotNull(message = "user id is mandatory") String userId) {
         this.userId = userId;
     }
 
@@ -235,4 +238,62 @@ public class PolicyDTO {
     public void setPurchaseDate(@NotBlank(message = "Purchase date is required") LocalDate purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
+
+	public String getQuoteId() {
+		return quoteId;
+	}
+
+	public void setQuoteId(String quoteId) {
+		this.quoteId = quoteId;
+	}
+
+	public String getnFirstName() {
+		return nFirstName;
+	}
+
+	public void setnFirstName(String nFirstName) {
+		this.nFirstName = nFirstName;
+	}
+
+	public String getnLastName() {
+		return nLastName;
+	}
+
+	public void setnLastName(String nLastName) {
+		this.nLastName = nLastName;
+	}
+
+	public String getnDOB() {
+		return nDOB;
+	}
+
+	public void setnDOB(String nDOB) {
+		this.nDOB = nDOB;
+	}
+
+	public String getnAddress() {
+		return nAddress;
+	}
+
+	public void setnAddress(String nAddress) {
+		this.nAddress = nAddress;
+	}
+
+	public String getnAadharNumber() {
+		return nAadharNumber;
+	}
+
+	public void setnAadharNumber(String nAadharNumber) {
+		this.nAadharNumber = nAadharNumber;
+	}
+
+	public String getnRelation() {
+		return nRelation;
+	}
+
+	public void setnRelation(String nRelation) {
+		this.nRelation = nRelation;
+	}
+    
+    
 }

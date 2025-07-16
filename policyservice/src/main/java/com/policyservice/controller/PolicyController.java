@@ -1,7 +1,6 @@
 package com.policyservice.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.policyservice.dto.PolicyDTO;
+import com.policyservice.dto.NomineeDto;
 import com.policyservice.exception.PolicyException;
 import com.policyservice.model.Policy;
 import com.policyservice.service.PolicyService;
@@ -16,12 +15,12 @@ public class PolicyController {
     @Autowired
     private PolicyService policyService;
 
-//    @PostMapping("/newPolicy")
-//    public Policy createPolicy(@RequestBody PolicyDTO policyDTO)throws PolicyException, JsonProcessingException
-//    {
-//        return policyService.createPolicy(policyDTO);
-//    }
-
+	
+	  @PutMapping("/update-policy") 
+	  public Policy createPolicy(@RequestBody NomineeDto nominee, @RequestParam("policyNumber") String policyNumber)throws PolicyException  { 
+	  return policyService.UpdatePolicyDetails(nominee,policyNumber); 
+	  }
+	 
     @GetMapping("/getPolicy")
     public Policy getPolicy(@RequestParam ("policyId")UUID policyId)throws PolicyException
     {

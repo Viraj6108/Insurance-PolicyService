@@ -11,4 +11,6 @@ import java.util.UUID;
 public interface PolicyRepository extends JpaRepository<Policy, UUID> {
 
     public Policy findByVehicleNumber(String vehicleNumber) throws PolicyException;
+    
+    public Policy findByPolicyNumber(String policyNumber) throws PolicyException;
 }

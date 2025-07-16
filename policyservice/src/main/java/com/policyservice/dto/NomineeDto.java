@@ -1,18 +1,8 @@
-package com.policyservice.model;
+package com.policyservice.dto;
+
+public class NomineeDto {
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
-public class NomineeDetails {
-
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int nId;
 	private String nFirstName;
 	private String nLastName;
 	private String nDOB;
@@ -55,12 +45,7 @@ public class NomineeDetails {
 	public void setnRelation(String nRelation) {
 		this.nRelation = nRelation;
 	}
-	public int getnId() {
-		return nId;
-	}
-	public void setnId(int nId) {
-		this.nId = nId;
-	}
+	
 	
 	
 }

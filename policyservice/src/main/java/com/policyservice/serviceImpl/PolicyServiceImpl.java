@@ -7,7 +7,10 @@ import com.google.gson.Gson;
 import static com.fatboyindustrial.gsonjavatime.Converters.registerAll;
 
 import com.google.gson.GsonBuilder;
+import com.policyservice.dto.NomineeDto;
+import com.policyservice.dto.PolicyDTO;
 import com.policyservice.exception.PolicyException;
+import com.policyservice.model.NomineeDetails;
 import com.policyservice.model.Policy;
 import com.policyservice.model.Quote;
 import com.policyservice.repository.PolicyRepository;
@@ -20,11 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Period;
-import java.util.Random;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -58,7 +56,6 @@ public PolicyServiceImpl(KafkaTemplate <String,String>kafkaTemplate)
             Policy newPolicy = new Policy();
           //mapping the values to entity 
            newPolicy =mapperEntity.toEntity(quote);
-  
            String stringPolicy = mapper.writeValueAsString(newPolicy);
 
            kafkaTemplate.send("email-notification", stringPolicy);
@@ -67,10 +64,33 @@ public PolicyServiceImpl(KafkaTemplate <String,String>kafkaTemplate)
 
     }
     
+    
+    
     @Override
     public Policy getPolicy(UUID policyId) throws PolicyException {
         Policy existingPolicy = policyRepository.findById(policyId)
                 .orElseThrow(()-> new PolicyException("Policy not found"));
         return existingPolicy;
     }
+
+
+
+	@Override
+	public Policy UpdatePolicyDetails(NomineeDto nominee, String policyNumber) throws PolicyException {
+		// TODO Auto-generated method stub
+		NomineeDetails details =new NomineeDetails();
+		details = mapperEntity.toEntityNominee(nominee);
+		
+		Policy existingpolicy = policyRepository.findByPolicyNumber(policyNumber);
+		if(existingpolicy.equals(null))
+			throw new PolicyException("Policy number is invalid");
+		existingpolicy.setNomineeDetails(details);
+		policyRepository.save(existingpolicy);
+		//map to dto 
+		PolicyDTO dto = mapperEntity.toDTO(existingpolicy);
+		
+		String nomineeString = gson.toJson(dto);
+		kafkaTemplate.send("policy-update",nomineeString);
+		return existingpolicy;
+	}
 }
