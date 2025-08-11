@@ -21,6 +21,7 @@ public class PolicyController {
 	  return policyService.UpdatePolicyDetails(nominee,policyNumber); 
 	  }
 	 
+	 
     @GetMapping("/getPolicy")
     public Policy getPolicy(@RequestParam ("policyId")UUID policyId)throws PolicyException
     {

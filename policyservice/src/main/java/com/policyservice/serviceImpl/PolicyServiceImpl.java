@@ -16,10 +16,13 @@ import com.policyservice.model.Quote;
 import com.policyservice.repository.PolicyRepository;
 import com.policyservice.service.PolicyService;
 
+
 import mapper.Mapper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -65,15 +68,34 @@ public PolicyServiceImpl(KafkaTemplate <String,String>kafkaTemplate)
     }
     
     
-    
+    @Cacheable("policydetails")
     @Override
     public Policy getPolicy(UUID policyId) throws PolicyException {
+    	Policy policy = getCachedData(policyId);
+    	if(policy !=null)
+    	{
+    		return policy;
+    	}
         Policy existingPolicy = policyRepository.findById(policyId)
                 .orElseThrow(()-> new PolicyException("Policy not found"));
         return existingPolicy;
     }
 
-
+@Autowired 
+private CacheManager cacheManager;
+public Policy getCachedData(UUID policyId)
+{
+	org.springframework.cache.Cache cache = cacheManager.getCache("policydetails");
+	if(cache != null)
+	{
+		org.springframework.cache.Cache.ValueWrapper wrapper = cache.get(policyId);
+		if(wrapper != null)
+		{
+			return (Policy)wrapper.get();
+		}
+	}
+	return null;
+}
 
 	@Override
 	public Policy UpdatePolicyDetails(NomineeDto nominee, String policyNumber) throws PolicyException {
